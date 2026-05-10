@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Pixel Nero — Cinematic Digital Studio</title>
+<meta name="description" content="Pixel Nero crafts cinematic digital experiences, luxury brand identities, and AI-powered campaigns for the world's most ambitious companies."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Geist:wght@200;300;400;500&family=Geist+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+:root{
+  --bg:#06060A;
+  --bg2:#0C0C12;
+  --bg3:#111118;
+  --ink:#EEEAE0;
+  --ink2:rgba(238,234,224,.55);
+  --ink3:rgba(238,234,224,.25);
+  --ink4:rgba(238,234,224,.08);
+  --gold:#C4A96B;
+  --gold2:rgba(196,169,107,.2);
+  --line:rgba(238,234,224,.07);
+  --line2:rgba(238,234,224,.13);
+  --ff-d:'Cormorant',serif;
+  --ff-b:'Geist',sans-serif;
+  --ff-m:'Geist Mono',monospace;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--ff-b);overflow-x:hidden;cursor:none}
+
+/* CURSOR */
+#cur,#cur2{position:fixed;border-radius:50%;pointer-events:none;z-index:9900;transform:translate(-50%,-50%);transition:width .25s,height .25s,opacity .3s}
+#cur{width:6px;height:6px;background:var(--gold);top:0;left:0}
+#cur2{width:36px;height:36px;border:1px solid rgba(196,169,107,.3);top:0;left:0;transition:width .3s,height .3s,border-color .3s,transform .09s ease}
+body.ch #cur{width:20px;height:20px;background:transparent;border:1px solid var(--gold)}
+body.ch #cur2{width:0;height:0;opacity:0}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:800;padding:32px 72px;display:flex;align-items:center;justify-content:space-between;transition:all .5s ease;border-bottom:1px solid transparent}
+nav.on{padding:18px 72px;background:rgba(6,6,10,.88);backdrop-filter:blur(24px);border-bottom-color:var(--line)}
+.logo{font-family:var(--ff-d);font-size:1.2rem;font-style:italic;font-weight:400;color:var(--ink);text-decoration:none;letter-spacing:.02em}
+.nav-links{display:flex;gap:40px;list-style:none;align-items:center}
+.nav-links a{font-family:var(--ff-m);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);text-decoration:none;transition:color .25s}
+.nav-links a:hover{color:var(--ink)}
+.nav-cta{color:var(--ink)!important;border:1px solid var(--line2)!important;padding:9px 22px;transition:background .25s,border-color .25s!important}
+.nav-cta:hover{background:rgba(238,234,224,.06)!important;border-color:rgba(238,234,224,.3)!important}
+
+/* CANVAS */
+#bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.7}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 72px 88px;position:relative;overflow:hidden;z-index:1}
+.hero-orb{position:absolute;top:50%;right:8%;transform:translateY(-50%);width:clamp(280px,30vw,480px);height:clamp(280px,30vw,480px);z-index:2;pointer-events:none}
+#orb-canvas{width:100%;height:100%}
+
+.h-tag{font-family:var(--ff-m);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:52px;display:flex;align-items:center;gap:18px;opacity:0;animation:up .9s .3s ease forwards}
+.h-tag::before{content:'';width:24px;height:1px;background:var(--gold)}
+h1.main{font-family:var(--ff-d);font-size:clamp(5rem,11vw,12.5rem);font-weight:300;line-height:.9;letter-spacing:-.03em;margin-bottom:72px;opacity:0;animation:up 1.1s .45s ease forwards;position:relative;z-index:3}
+h1.main em{font-style:italic;color:var(--gold);font-weight:300}
+h1.main .sh{display:block;padding-left:20vw}
+.hero-ft{display:grid;grid-template-columns:1fr auto 1fr;gap:48px;align-items:end;opacity:0;animation:up .9s .65s ease forwards;position:relative;z-index:3}
+.hero-desc{font-family:var(--ff-b);font-size:.88rem;font-weight:300;color:var(--ink2);line-height:1.8;max-width:300px}
+.hero-nums{display:flex;gap:44px;justify-content:center}
+.hn .v{font-family:var(--ff-d);font-size:2.4rem;font-weight:300;letter-spacing:-.03em;line-height:1}
+.hn .l{font-family:var(--ff-m);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-top:8px}
+.hero-act{display:flex;flex-direction:column;gap:12px;align-items:flex-end}
+.scroll-ind{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;font-family:var(--ff-m);font-size:.54rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);z-index:3}
+.scroll-line{width:1px;height:50px;overflow:hidden;position:relative}
+.scroll-line::after{content:'';position:absolute;top:0;left:0;width:1px;height:100%;background:linear-gradient(to bottom,var(--gold),transparent);animation:drip 2.4s ease-in-out infinite}
+@keyframes drip{0%{transform:translateY(-100%)}100%{transform:translateY(200%)}}
+@keyframes up{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+/* BTNS */
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--ff-b);font-size:.78rem;font-weight:300;letter-spacing:.04em;text-decoration:none;padding:14px 30px;transition:all .25s;cursor:none;border:1px solid transparent}
+.btn-gold{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+.btn-gold:hover{background:rgba(196,169,107,.85);transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line2)}
+.btn-ghost:hover{background:var(--ink4);border-color:rgba(238,234,224,.25);transform:translateY(-1px)}
+
+/* MARQUEE */
+.mq{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:15px 0;position:relative;z-index:1}
+.mq-track{display:flex;animation:mq 30s linear infinite;white-space:nowrap}
+.mq-item{font-family:var(--ff-m);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3);padding:0 52px;display:inline-flex;align-items:center;gap:52px}
+.mq-item::after{content:'◆';font-size:.3rem;color:var(--gold)}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* SECTION COMMONS */
+section{padding:130px 72px;position:relative;z-index:1}
+.sl{font-family:var(--ff-m);font-size:.58rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:22px;display:flex;align-items:center;gap:14px}
+.sl::before{content:'';width:16px;height:1px;background:var(--gold)}
+.st{font-family:var(--ff-d);font-size:clamp(3rem,5.5vw,6.5rem);font-weight:300;line-height:.97;letter-spacing:-.03em}
+.st em{font-style:italic;color:var(--gold)}
+
+/* SERVICES */
+.svc-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:88px;gap:40px}
+.svc-sub{font-family:var(--ff-b);font-size:.85rem;font-weight:300;color:var(--ink2);line-height:1.8;max-width:320px}
+.svc-list{display:flex;flex-direction:column}
+.si{display:grid;grid-template-columns:60px 1fr 1.2fr 60px;gap:44px;align-items:center;padding:40px 0;border-bottom:1px solid var(--line);transition:padding .35s cubic-bezier(.16,1,.3,1),background .35s;cursor:none;position:relative;overflow:hidden}
+.si:first-child{border-top:1px solid var(--line)}
+.si::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--gold);transform:scaleY(0);transform-origin:bottom;transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.si:hover{padding-left:20px;padding-right:20px;margin:0 -20px;background:rgba(238,234,224,.03)}
+.si:hover::before{transform:scaleY(1)}
+.si-n{font-family:var(--ff-m);font-size:.58rem;letter-spacing:.1em;color:var(--ink3)}
+.si-name{font-family:var(--ff-d);font-size:clamp(1.8rem,2.8vw,2.8rem);font-weight:300;letter-spacing:-.02em}
+.si-desc{font-family:var(--ff-b);font-size:.82rem;font-weight:300;color:var(--ink2);line-height:1.75}
+.si-arr{font-size:1.3rem;color:var(--ink3);text-align:right;transition:color .3s,transform .4s cubic-bezier(.16,1,.3,1)}
+.si:hover .si-arr{color:var(--gold);transform:translate(6px,-2px)}
+
+/* ABOUT */
+.about{background:var(--bg2)}
+.about-inner{display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center}
+.about-body{font-family:var(--ff-b);font-size:.9rem;font-weight:300;color:var(--ink2);line-height:1.9;margin-top:40px;max-width:460px}
+.stack{display:flex;flex-wrap:wrap;gap:10px;margin-top:52px}
+.stag{font-family:var(--ff-m);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:8px 16px;border:1px solid var(--line);color:var(--ink3);transition:border-color .25s,color .25s}
+.stag:hover{border-color:var(--gold);color:var(--gold)}
+.ab-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+.ab-box{background:rgba(238,234,224,.03);border:1px solid var(--line);padding:48px 40px;transition:background .3s,border-color .3s}
+.ab-box:hover{background:rgba(238,234,224,.06);border-color:var(--line2)}
+.ab-n{font-family:var(--ff-d);font-size:3.8rem;font-weight:300;letter-spacing:-.04em;line-height:1;color:var(--ink)}
+.ab-n sup{font-size:.4em;color:var(--gold);vertical-align:super;font-family:var(--ff-m)}
+.ab-l{font-family:var(--ff-m);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-top:12px}
+
+/* WORK */
+.work{background:var(--bg3)}
+.work-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:80px;gap:40px}
+.work-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+.wi{background:rgba(238,234,224,.025);border:1px solid var(--line);padding:60px 52px;position:relative;overflow:hidden;cursor:none;transition:background .4s,border-color .4s}
+.wi:hover{background:rgba(238,234,224,.055);border-color:var(--line2)}
+.wi:first-child{grid-column:1/-1;display:grid;grid-template-columns:1.2fr 1fr;gap:60px;align-items:end}
+.wi::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 100%,rgba(196,169,107,.04),transparent);opacity:0;transition:opacity .5s}
+.wi:hover::after{opacity:1}
+.wi-n{font-family:var(--ff-m);font-size:.58rem;letter-spacing:.1em;color:var(--ink3);margin-bottom:52px}
+.wi-t{font-family:var(--ff-d);font-size:clamp(2rem,3.2vw,3.4rem);font-weight:300;letter-spacing:-.02em;line-height:1.1;margin-bottom:24px}
+.wi-tags{display:flex;gap:10px;flex-wrap:wrap}
+.wt{font-family:var(--ff-m);font-size:.56rem;letter-spacing:.12em;text-transform:uppercase;padding:6px 14px;border:1px solid var(--line);color:var(--ink3);transition:border-color .2s,color .2s}
+.wi:hover .wt{border-color:rgba(196,169,107,.25);color:rgba(196,169,107,.7)}
+.wi-arr{font-size:1.5rem;color:var(--ink3);align-self:flex-end;text-align:right;transition:color .3s,transform .4s}
+.wi:hover .wi-arr{color:var(--gold);transform:translate(5px,-5px)}
+
+/* AI */
+.ai{background:var(--bg)}
+.ai-inner{display:grid;grid-template-columns:1fr 1fr;gap:110px;align-items:start}
+.ai-body{font-family:var(--ff-b);font-size:.88rem;font-weight:300;color:var(--ink2);line-height:1.85;margin-top:36px;max-width:420px}
+.ai-cards{display:flex;flex-direction:column;gap:0}
+.ai-card{padding:36px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:52px 1fr;gap:24px;align-items:start;transition:padding .3s}
+.ai-card:first-child{border-top:1px solid var(--line)}
+.ai-card:hover{padding-left:10px}
+.ai-glyph{width:38px;height:38px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:.85rem;color:var(--ink3);transition:border-color .25s,color .25s,background .25s}
+.ai-card:hover .ai-glyph{border-color:var(--gold);color:var(--gold);background:rgba(196,169,107,.06)}
+.ai-title{font-family:var(--ff-d);font-size:1.3rem;font-weight:400;letter-spacing:-.01em;margin-bottom:10px}
+.ai-desc{font-family:var(--ff-b);font-size:.8rem;font-weight:300;color:var(--ink2);line-height:1.75}
+
+/* PROCESS */
+.process{background:var(--bg2)}
+.process-inner{display:grid;grid-template-columns:1fr 2.5fr;gap:90px;align-items:start}
+.p-steps{display:flex;flex-direction:column}
+.ps{padding:44px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:64px 1fr;gap:32px;cursor:none;transition:padding .35s}
+.ps:first-child{border-top:1px solid var(--line)}
+.ps:hover{padding-left:12px;padding-right:12px;margin:0 -12px}
+.ps-n{font-family:var(--ff-m);font-size:.56rem;letter-spacing:.1em;color:var(--gold);padding-top:4px}
+.ps-t{font-family:var(--ff-d);font-size:2rem;font-weight:300;letter-spacing:-.02em;margin-bottom:14px}
+.ps-d{font-family:var(--ff-b);font-size:.82rem;font-weight:300;color:var(--ink2);line-height:1.8}
+
+/* PHILOSOPHY */
+.philo{background:var(--bg);overflow:hidden}
+.philo-inner{display:grid;place-items:center;text-align:center;max-width:900px;margin:0 auto}
+.philo-rule{width:1px;height:72px;background:linear-gradient(to bottom,transparent,var(--gold),transparent);margin:0 auto 56px}
+.philo-q{font-family:var(--ff-d);font-size:clamp(1.8rem,3.5vw,3.5rem);font-weight:300;font-style:italic;line-height:1.45;letter-spacing:-.02em;color:var(--ink);margin-bottom:48px}
+.philo-q em{color:var(--gold);font-style:normal}
+.philo-attr{font-family:var(--ff-m);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3)}
+
+/* TESTIMONIALS */
+.testi{background:var(--bg3)}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:72px}
+.tc{background:rgba(238,234,224,.03);border:1px solid var(--line);padding:52px 44px;display:flex;flex-direction:column;gap:44px;transition:background .3s,border-color .3s}
+.tc:hover{background:rgba(238,234,224,.06);border-color:var(--line2)}
+.tc-open{font-family:var(--ff-d);font-size:3.5rem;line-height:.7;color:var(--gold);margin-bottom:4px}
+.tc-body{font-family:var(--ff-d);font-style:italic;font-size:1.08rem;font-weight:300;line-height:1.7;color:var(--ink2);flex:1}
+.tc-author{display:flex;align-items:center;gap:16px}
+.tc-av{width:36px;height:36px;border-radius:50%;background:var(--gold2);border:1px solid rgba(196,169,107,.3);display:flex;align-items:center;justify-content:center;font-family:var(--ff-m);font-size:.58rem;color:var(--gold);letter-spacing:.04em;flex-shrink:0}
+.tc-name{font-family:var(--ff-b);font-size:.82rem;font-weight:400;color:var(--ink)}
+.tc-role{font-family:var(--ff-m);font-size:.58rem;letter-spacing:.08em;color:var(--ink3);margin-top:3px}
+
+/* CTA BAND */
+.cta{text-align:center;padding:160px 72px;position:relative;overflow:hidden}
+.cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(ellipse,rgba(196,169,107,.06),transparent 70%);pointer-events:none}
+.cta-h{font-family:var(--ff-d);font-size:clamp(3.5rem,8vw,10rem);font-weight:300;line-height:.92;letter-spacing:-.04em;margin-bottom:64px;position:relative;z-index:1}
+.cta-h em{font-style:italic;color:var(--gold)}
+.cta-acts{display:flex;gap:16px;justify-content:center;position:relative;z-index:1}
+
+/* CONTACT */
+.contact{background:var(--bg2)}
+.contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:110px}
+.ci-list{display:flex;flex-direction:column;margin-top:52px}
+.ci{display:flex;align-items:flex-start;gap:20px;padding:28px 0;border-bottom:1px solid var(--line);transition:padding .3s}
+.ci:first-child{border-top:1px solid var(--line)}
+.ci:hover{padding-left:8px}
+.ci-icon{width:34px;height:34px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:.8rem;color:var(--ink3);flex-shrink:0;transition:border-color .25s,color .25s}
+.ci:hover .ci-icon{border-color:var(--gold);color:var(--gold)}
+.ci-lbl{font-family:var(--ff-m);font-size:.54rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:5px}
+.ci-val{font-family:var(--ff-b);font-size:.84rem;font-weight:300;color:var(--ink2)}
+.ci-val a{color:var(--ink);text-decoration:none;transition:color .2s}
+.ci-val a:hover{color:var(--gold)}
+.form{display:flex;flex-direction:column;gap:14px}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ff{display:flex;flex-direction:column;gap:8px}
+.fl{font-family:var(--ff-m);font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
+.fi,.fs,.ft{background:rgba(238,234,224,.04);border:1px solid var(--line);color:var(--ink);font-family:var(--ff-b);font-size:.82rem;font-weight:300;padding:13px 16px;outline:none;transition:border-color .25s,background .25s;cursor:none;border-radius:0;-webkit-appearance:none}
+.fi:focus,.fs:focus,.ft:focus{border-color:rgba(196,169,107,.4);background:rgba(196,169,107,.03)}
+.fi::placeholder,.ft::placeholder{color:var(--ink3)}
+.fs{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23666'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.ft{resize:none;height:120px;line-height:1.6}
+.fsuccess{display:none;padding:20px 24px;border:1px solid rgba(196,169,107,.25);background:rgba(196,169,107,.05);font-family:var(--ff-m);font-size:.7rem;letter-spacing:.08em;color:var(--gold)}
+.fsuccess.on{display:block}
+
+/* FOOTER */
+footer{padding:40px 72px;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:32px;position:relative;z-index:1}
+.fl2{font-family:var(--ff-d);font-size:1.1rem;font-style:italic;color:var(--ink);text-decoration:none}
+.fc{font-family:var(--ff-m);font-size:.56rem;letter-spacing:.1em;color:var(--ink3);text-align:center}
+.flinks{display:flex;gap:28px;justify-content:flex-end}
+.flinks a{font-family:var(--ff-m);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);text-decoration:none;transition:color .2s}
+.flinks a:hover{color:var(--gold)}
+
+/* REVEALS */
+.r{opacity:0;transform:translateY(22px);transition:opacity .8s ease,transform .8s ease}
+.r.v{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+/* MOBILE */
+@media(max-width:960px){
+  nav,section,.hero,.work,.testi,.cta,.contact,footer{padding-left:24px;padding-right:24px}
+  nav.on{padding-left:24px;padding-right:24px}
+  .nav-links{display:none}
+  h1.main{font-size:clamp(3.5rem,14vw,7rem)}
+  h1.main .sh{padding-left:6vw}
+  .hero-orb{width:200px;height:200px;right:4%;top:30%;transform:none}
+  .hero-ft{grid-template-columns:1fr;gap:32px}
+  .hero-act{align-items:flex-start}
+  .hero-nums{justify-content:flex-start}
+  .about-inner,.ai-inner,.contact-inner,.process-inner{grid-template-columns:1fr;gap:52px}
+  .ab-grid{grid-template-columns:1fr 1fr}
+  .svc-head{flex-direction:column;align-items:flex-start}
+  .si{grid-template-columns:48px 1fr;grid-template-rows:auto auto}
+  .si-desc,.si-arr{grid-column:2}
+  .work-grid{grid-template-columns:1fr}
+  .wi:first-child{grid-template-columns:1fr}
+  .testi-grid{grid-template-columns:1fr}
+  .work-head{flex-direction:column;align-items:flex-start}
+  footer{grid-template-columns:1fr;text-align:center}
+  .flinks{justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur2"></div>
+
+<!-- ATMOSPHERIC BACKGROUND CANVAS -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="logo" href="#">Pixel Nero</a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">Studio</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#contact" class="nav-cta">Begin Project ↗</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <!-- SIGNATURE ORB -->
+  <div class="hero-orb" id="hero-orb">
+    <canvas id="orb-canvas"></canvas>
+  </div>
+
+  <div class="h-tag">Cinematic Digital Studio — Est. 2019</div>
+
+  <h1 class="main">
+    We craft<br>
+    <em>digital</em><br>
+    <span class="sh">noir.</span>
+  </h1>
+
+  <div class="hero-ft">
+    <p class="hero-desc">Where luxury design meets AI precision. Pixel Nero builds cinematic brand experiences that convert ambition into legacy.</p>
+    <div class="hero-nums">
+      <div class="hn"><div class="v">350<sup style="font-family:var(--ff-m);font-size:.45em;vertical-align:super">+</sup></div><div class="l">Projects shipped</div></div>
+      <div class="hn"><div class="v">85<sup style="font-family:var(--ff-m);font-size:.45em;vertical-align:super">%</sup></div><div class="l">Conversion lift</div></div>
+      <div class="hn"><div class="v">6<span style="font-family:var(--ff-d);font-size:.7em">wk</span></div><div class="l">Discovery to live</div></div>
+    </div>
+    <div class="hero-act">
+      <a href="#contact" class="btn btn-gold">Begin a project →</a>
+      <a href="#work" class="btn btn-ghost">View our work</a>
+    </div>
+  </div>
+
+  <div class="scroll-ind"><span>Scroll</span><div class="scroll-line"></div></div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq" aria-hidden="true">
+  <div class="mq-track">
+    <span class="mq-item">Website Design</span><span class="mq-item">Brand Identity</span><span class="mq-item">AI Integration</span><span class="mq-item">UX &amp; Product</span><span class="mq-item">Launch Strategy</span><span class="mq-item">Cinematic Campaigns</span><span class="mq-item">Motion Design</span><span class="mq-item">Creative Direction</span><span class="mq-item">Website Design</span><span class="mq-item">Brand Identity</span><span class="mq-item">AI Integration</span><span class="mq-item">UX &amp; Product</span><span class="mq-item">Launch Strategy</span><span class="mq-item">Cinematic Campaigns</span><span class="mq-item">Motion Design</span><span class="mq-item">Creative Direction</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services" style="background:var(--bg)">
+  <div class="svc-head">
+    <div>
+      <div class="sl r">Capabilities</div>
+      <h2 class="st r d1">What we<br><em>do best</em></h2>
+    </div>
+    <p class="svc-sub r d2">End-to-end digital craft for brands that refuse to blend in.</p>
+  </div>
+  <div class="svc-list">
+    <div class="si r"><span class="si-n">01</span><div class="si-name">Website Design</div><p class="si-desc">Responsive, conversion-engineered sites that feel alive. Visual depth married to performance — sites visitors remember and return to.</p><span class="si-arr">→</span></div>
+    <div class="si r d1"><span class="si-n">02</span><div class="si-name">Brand Identity</div><p class="si-desc">A brand system is a language. Logos, palettes, type, and motion that speak with authority across every touchpoint.</p><span class="si-arr">→</span></div>
+    <div class="si r d2"><span class="si-n">03</span><div class="si-name">UX &amp; Product</div><p class="si-desc">Interfaces that make complexity feel effortless. Deep research, sharp hierarchies, obsessive attention to interaction quality.</p><span class="si-arr">→</span></div>
+    <div class="si r d3"><span class="si-n">04</span><div class="si-name">AI Integration</div><p class="si-desc">Personalized campaigns, generative assets, AI-powered experiences — woven into human-crafted design to give your brand a genuine edge.</p><span class="si-arr">→</span></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-inner">
+    <div>
+      <div class="sl r">Studio</div>
+      <h2 class="st r d1">We are<br><em>obsessives.</em></h2>
+      <p class="about-body r d2">Born from a love of cinema, technology, and the spaces where neither feels enough alone. Pixel Nero is the studio you call when average is not an option.<br><br>We work with a small number of clients each year, dedicating the full weight of our craft to every project. No assembly lines. No templates. Just obsessive, singular work.</p>
+      <div class="stack r d3">
+        <span class="stag">Webflow</span><span class="stag">React</span><span class="stag">Three.js</span><span class="stag">Figma</span><span class="stag">Motion</span><span class="stag">AI Tools</span><span class="stag">Framer</span><span class="stag">GSAP</span>
+      </div>
+    </div>
+    <div class="ab-grid r d2">
+      <div class="ab-box"><div class="ab-n">6<sup>+</sup></div><div class="ab-l">Years active</div></div>
+      <div class="ab-box"><div class="ab-n">32</div><div class="ab-l">Awards</div></div>
+      <div class="ab-box"><div class="ab-n">98<sup>%</sup></div><div class="ab-l">Client retention</div></div>
+      <div class="ab-box"><div class="ab-n">350<sup>+</sup></div><div class="ab-l">Projects shipped</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="work" id="work">
+  <div class="work-head">
+    <div>
+      <div class="sl r">Portfolio</div>
+      <h2 class="st r d1">Selected<br><em>work</em></h2>
+    </div>
+    <p class="r d2" style="font-family:var(--ff-b);font-size:.85rem;font-weight:300;color:var(--ink2);max-width:280px;line-height:1.8">A curated selection of recent projects — each a distinct story told through design.</p>
+  </div>
+  <div class="work-grid">
+    <div class="wi r">
+      <div><div class="wi-n">01 — Featured</div><div class="wi-t">Luxury E-commerce<br>Launch</div><div class="wi-tags"><span class="wt">Brand</span><span class="wt">Website</span><span class="wt">Campaign</span></div></div>
+      <div class="wi-arr">↗</div>
+    </div>
+    <div class="wi r d1"><div class="wi-n">02</div><div class="wi-t">SaaS Pitch Platform</div><div class="wi-tags"><span class="wt">UX</span><span class="wt">Website</span><span class="wt">Identity</span></div><div class="wi-arr">↗</div></div>
+    <div class="wi r d2"><div class="wi-n">03</div><div class="wi-t">Creative Campaign System</div><div class="wi-tags"><span class="wt">Motion</span><span class="wt">Social</span><span class="wt">Art Direction</span></div><div class="wi-arr">↗</div></div>
+    <div class="wi r d1"><div class="wi-n">04</div><div class="wi-t">Agency Total Rebrand</div><div class="wi-tags"><span class="wt">Brand System</span><span class="wt">Strategy</span></div><div class="wi-arr">↗</div></div>
+  </div>
+</section>
+
+<!-- AI -->
+<section class="ai" id="ai">
+  <div class="ai-inner">
+    <div>
+      <div class="sl r">AI Innovation</div>
+      <h2 class="st r d1">Intelligence<br>meets<br><em>craft</em></h2>
+      <p class="ai-body r d2">We don't use AI to replace creativity. We use it to extend what's humanly possible — faster iteration, hyper-personalized campaigns, and experiences that adapt in real time.</p>
+      <div class="r d3" style="margin-top:48px"><a href="#contact" class="btn btn-gold">Explore AI services →</a></div>
+    </div>
+    <div class="ai-cards r d2">
+      <div class="ai-card"><div class="ai-glyph">⚡</div><div><div class="ai-title">Generative Campaigns</div><p class="ai-desc">AI-assisted visual and copy generation that scales personalization without losing brand soul.</p></div></div>
+      <div class="ai-card"><div class="ai-glyph">◈</div><div><div class="ai-title">Intelligent UX</div><p class="ai-desc">Adaptive interfaces that learn from user behavior to continuously optimize for conversion.</p></div></div>
+      <div class="ai-card"><div class="ai-glyph">∞</div><div><div class="ai-title">Rapid Iteration</div><p class="ai-desc">AI-accelerated design workflows that compress months of exploration into days of refinement.</p></div></div>
+      <div class="ai-card"><div class="ai-glyph">◎</div><div><div class="ai-title">Brand Intelligence</div><p class="ai-desc">Train custom models on your brand voice and visual identity to generate consistent assets at scale.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="process-inner">
+    <div>
+      <div class="sl r">Methodology</div>
+      <h2 class="st r d1">How we<br><em>operate</em></h2>
+    </div>
+    <div class="p-steps">
+      <div class="ps r"><span class="ps-n">01 / 04</span><div><div class="ps-t">Clarify</div><p class="ps-d">We immerse ourselves in your world before touching a single pixel. Deep discovery — audience, goals, market, tension points. This session shapes every creative decision that follows.</p></div></div>
+      <div class="ps r d1"><span class="ps-n">02 / 04</span><div><div class="ps-t">Create</div><p class="ps-d">Design, challenge, refine, repeat. We explore bold directions before converging on the singular vision your brand deserves. Every detail reviewed until it earns its place.</p></div></div>
+      <div class="ps r d2"><span class="ps-n">03 / 04</span><div><div class="ps-t">Build</div><p class="ps-d">Production-grade front-end craftsmanship. Performant, responsive, and alive. We write code the same way we design — with intentionality and respect for the person on the other end.</p></div></div>
+      <div class="ps r d3"><span class="ps-n">04 / 04</span><div><div class="ps-t">Launch</div><p class="ps-d">QA, handoff, and go-live support. Your site enters the world exactly as designed. Post-launch partnership available for brands that keep moving.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PHILOSOPHY -->
+<section class="philo">
+  <div class="philo-inner">
+    <div class="philo-rule r"></div>
+    <blockquote class="philo-q r d1">
+      Restraint is the highest form of luxury.<br>
+      Every pixel <em>earns its place</em> — or it doesn't exist.
+    </blockquote>
+    <div class="philo-attr r d2">— Pixel Nero Studio Philosophy</div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi" id="testimonials">
+  <div class="sl r">Clients speak</div>
+  <h2 class="st r d1">Words from<br><em>those who know</em></h2>
+  <div class="testi-grid">
+    <div class="tc r d1"><div><div class="tc-open">"</div><p class="tc-body">Pixel Nero helped us launch our product with a site that looks incredible and converts better than anything we've had. They think beyond aesthetics — they think about outcomes.</p></div><div class="tc-author"><div class="tc-av">AL</div><div><div class="tc-name">Anna Lee</div><div class="tc-role">Founder, Luma Studio</div></div></div></div>
+    <div class="tc r d2"><div><div class="tc-open">"</div><p class="tc-body">The process was refreshingly clear. The final design felt genuinely premium — not in a showy way, but in the quiet confidence of everything being exactly right.</p></div><div class="tc-author"><div class="tc-av">JP</div><div><div class="tc-name">Jordan Park</div><div class="tc-role">CEO, Nova Labs</div></div></div></div>
+    <div class="tc r d3"><div><div class="tc-open">"</div><p class="tc-body">Highly responsive, obsessively detailed. Our website now feels aligned with who we want to be — not just who we are. That distinction is rare and extraordinarily valuable.</p></div><div class="tc-author"><div class="tc-av">MT</div><div><div class="tc-name">Mia Torres</div><div class="tc-role">Marketing Lead, Atelier Co.</div></div></div></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-glow"></div>
+  <h2 class="cta-h r">Let's build<br>something<br><em>unforgettable</em></h2>
+  <div class="cta-acts r d1">
+    <a href="#contact" class="btn btn-gold">Begin a project →</a>
+    <a href="mailto:info-pixelnero@gmail.com" class="btn btn-ghost">info-pixelnero@gmail.com</a>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <div>
+      <div class="sl r">Contact</div>
+      <h2 class="st r d1">Let's build<br>something<br><em>unforgettable</em></h2>
+      <div class="ci-list">
+        <div class="ci r d2"><div class="ci-icon">✉</div><div><div class="ci-lbl">Email</div><div class="ci-val"><a href="mailto:info-pixelnero@gmail.com">info-pixelnero@gmail.com</a></div></div></div>
+        <div class="ci r d3"><div class="ci-icon">☎</div><div><div class="ci-lbl">Phone / WhatsApp</div><div class="ci-val"><a href="tel:+35500000000">+355 00 000 0000</a></div></div></div>
+        <div class="ci r d3"><div class="ci-icon">◷</div><div><div class="ci-lbl">Response time</div><div class="ci-val">Within 24 hours on business days</div></div></div>
+        <div class="ci r d4"><div class="ci-icon">◎</div><div><div class="ci-lbl">Location</div><div class="ci-val">Albania — working worldwide</div></div></div>
+      </div>
+    </div>
+    <div>
+      <p class="r" style="font-family:var(--ff-b);font-size:.85rem;font-weight:300;color:var(--ink2);line-height:1.8;margin-bottom:36px">Tell us about your vision and we'll find a way to make it real.</p>
+      <div id="fsuccess" class="fsuccess">✦ &nbsp; Message received. We'll respond within 24 hours. Something great is about to begin.</div>
+      <form class="form r d1" id="cform" onsubmit="doSubmit(event)">
+        <div class="fr">
+          <div class="ff"><label class="fl">First name</label><input class="fi" type="text" placeholder="Anna" required/></div>
+          <div class="ff"><label class="fl">Last name</label><input class="fi" type="text" placeholder="Lee" required/></div>
+        </div>
+        <div class="ff"><label class="fl">Email</label><input class="fi" type="email" placeholder="you@company.com" required/></div>
+        <div class="fr">
+          <div class="ff"><label class="fl">Service</label><select class="fs"><option value="" disabled selected>Select a service…</option><option>Website Design</option><option>Brand Identity</option><option>UX &amp; Product Design</option><option>AI Integration</option><option>Full Package</option><option>Something else</option></select></div>
+          <div class="ff"><label class="fl">Budget range</label><select class="fs"><option value="" disabled selected>Select range…</option><option>Under $1,000</option><option>$1,000 – $3,000</option><option>$3,000 – $7,000</option><option>$7,000 – $15,000</option><option>$15,000+</option></select></div>
+        </div>
+        <div class="ff"><label class="fl">Your project</label><textarea class="ft" placeholder="Tell us about your project…" required></textarea></div>
+        <button type="submit" class="btn btn-gold" style="align-self:flex-start">Send message →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a class="fl2" href="#">Pixel Nero</a>
+  <span class="fc">© 2026 Pixel Nero Studio. All rights reserved.</span>
+  <div class="flinks"><a href="#">Instagram</a><a href="#">Behance</a><a href="#">LinkedIn</a><a href="#">Privacy</a></div>
+</footer>
+
+<!-- THREE.JS from CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* ── CURSOR ── */
+const cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;cur2.style.left=rx+'px';cur2.style.top=ry+'px';requestAnimationFrame(loop)})();
+document.querySelectorAll('a,button,.si,.ps,.wi,.tc,.ab-box,.ci,.ai-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('ch'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('ch'));
+});
+
+/* ── NAV ── */
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('on',scrollY>60),{passive:true});
+
+/* ── REVEALS ── */
+const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('v')}),{threshold:.1});
+document.querySelectorAll('.r').forEach(el=>io.observe(el));
+
+/* ── FORM ── */
+function doSubmit(e){e.preventDefault();document.getElementById('cform').style.display='none';document.getElementById('fsuccess').classList.add('on')}
+
+/* ── ATMOSPHERIC BACKGROUND (Three.js) ── */
+(function initBG(){
+  const W=window.innerWidth,H=window.innerHeight;
+  const renderer=new THREE.WebGLRenderer({canvas:document.getElementById('bg-canvas'),alpha:true,antialias:false});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,1.5));
+  renderer.setSize(W,H);
+  const scene=new THREE.Scene();
+  const camera=new THREE.PerspectiveCamera(60,W/H,.1,100);
+  camera.position.z=5;
+
+  // soft particle field
+  const COUNT=280;
+  const positions=new Float32Array(COUNT*3);
+  const sizes=new Float32Array(COUNT);
+  for(let i=0;i<COUNT;i++){
+    positions[i*3]=(Math.random()-.5)*18;
+    positions[i*3+1]=(Math.random()-.5)*18;
+    positions[i*3+2]=(Math.random()-.5)*8-2;
+    sizes[i]=Math.random()*2+.5;
+  }
+  const pg=new THREE.BufferGeometry();
+  pg.setAttribute('position',new THREE.BufferAttribute(positions,3));
+  pg.setAttribute('size',new THREE.BufferAttribute(sizes,1));
+  const pm=new THREE.PointsMaterial({color:0xC4A96B,size:.06,transparent:true,opacity:.35,sizeAttenuation:true});
+  scene.add(new THREE.Points(pg,pm));
+
+  // very faint ambient horizontal line
+  const lg=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-10,0,-3),new THREE.Vector3(10,0,-3)]);
+  const lm=new THREE.LineBasicMaterial({color:0xC4A96B,transparent:true,opacity:.06});
+  scene.add(new THREE.Line(lg,lm));
+
+  let scrollY_bg=0,mouseX=0,mouseY=0;
+  window.addEventListener('scroll',()=>{scrollY_bg=window.scrollY},{passive:true});
+  document.addEventListener('mousemove',e=>{mouseX=(e.clientX/window.innerWidth-.5)*.8;mouseY=(e.clientY/window.innerHeight-.5)*.5});
+
+  let t=0;
+  (function animate(){
+    requestAnimationFrame(animate);
+    t+=.004;
+    camera.position.x+=(mouseX*.3-camera.position.x)*.04;
+    camera.position.y+=(-mouseY*.2-camera.position.y)*.04;
+    camera.position.y-=scrollY_bg*.0005;
+    scene.rotation.z=t*.04;
+    pm.opacity=.28+Math.sin(t*.5)*.07;
+    renderer.render(scene,camera);
+  })();
+
+  window.addEventListener('resize',()=>{
+    renderer.setSize(window.innerWidth,window.innerHeight);
+    camera.aspect=window.innerWidth/window.innerHeight;
+    camera.updateProjectionMatrix();
+  });
+})();
+
+/* ── SIGNATURE ORB (Three.js) ── */
+(function initOrb(){
+  const canvas=document.getElementById('orb-canvas');
+  const W=canvas.offsetWidth||480,H=canvas.offsetHeight||480;
+  const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(W,H);
+  renderer.shadowMap.enabled=false;
+
+  const scene=new THREE.Scene();
+  const camera=new THREE.PerspectiveCamera(45,W/H,.1,100);
+  camera.position.z=3.2;
+
+  // Core orb — icosahedron with wireframe overlay for depth
+  const geo=new THREE.IcosahedronGeometry(1,5);
+
+  // Main surface — dark chrome
+  const mat=new THREE.MeshPhongMaterial({
+    color:0x0A0A0E,
+    emissive:0x0D0A06,
+    specular:0xC4A96B,
+    shininess:160,
+    transparent:true,
+    opacity:.95,
+    wireframe:false,
+  });
+  const mesh=new THREE.Mesh(geo,mat);
+  scene.add(mesh);
+
+  // Gold wireframe overlay — very subtle
+  const wireMat=new THREE.MeshBasicMaterial({color:0xC4A96B,wireframe:true,transparent:true,opacity:.06});
+  const wireMesh=new THREE.Mesh(geo,wireMat);
+  wireMesh.scale.setScalar(1.002);
+  scene.add(wireMesh);
+
+  // Inner glow sphere
+  const glowGeo=new THREE.SphereGeometry(.72,32,32);
+  const glowMat=new THREE.MeshBasicMaterial({color:0x1A1208,transparent:true,opacity:.8});
+  scene.add(new THREE.Mesh(glowGeo,glowMat));
+
+  // Lights
+  const ambient=new THREE.AmbientLight(0x0A0A0E,1.2);
+  scene.add(ambient);
+
+  const key=new THREE.DirectionalLight(0xC4A96B,1.4);
+  key.position.set(3,2,4);
+  scene.add(key);
+
+  const fill=new THREE.DirectionalLight(0x101020,0.6);
+  fill.position.set(-3,-1,-2);
+  scene.add(fill);
+
+  const rim=new THREE.PointLight(0xD4B87A,0.8,8);
+  rim.position.set(-2,2,1);
+  scene.add(rim);
+
+  // Orbiting ring
+  const ringGeo=new THREE.TorusGeometry(1.28,.008,4,120);
+  const ringMat=new THREE.MeshBasicMaterial({color:0xC4A96B,transparent:true,opacity:.18});
+  const ring=new THREE.Mesh(ringGeo,ringMat);
+  ring.rotation.x=Math.PI/2.4;
+  scene.add(ring);
+
+  // Second ring
+  const ring2=new THREE.Mesh(new THREE.TorusGeometry(1.5,.004,4,120),new THREE.MeshBasicMaterial({color:0xC4A96B,transparent:true,opacity:.07}));
+  ring2.rotation.x=Math.PI/3;
+  ring2.rotation.y=.6;
+  scene.add(ring2);
+
+  // Floating particles around orb
+  const orbPcount=60;
+  const orbPpos=new Float32Array(orbPcount*3);
+  for(let i=0;i<orbPcount;i++){
+    const theta=Math.random()*Math.PI*2,phi=Math.acos(2*Math.random()-1),r=1.6+Math.random()*.8;
+    orbPpos[i*3]=r*Math.sin(phi)*Math.cos(theta);
+    orbPpos[i*3+1]=r*Math.sin(phi)*Math.sin(theta);
+    orbPpos[i*3+2]=r*Math.cos(phi);
+  }
+  const orbPgeo=new THREE.BufferGeometry();
+  orbPgeo.setAttribute('position',new THREE.BufferAttribute(orbPpos,3));
+  const orbPmat=new THREE.PointsMaterial({color:0xC4A96B,size:.025,transparent:true,opacity:.5,sizeAttenuation:true});
+  scene.add(new THREE.Points(orbPgeo,orbPmat));
+
+  // Mouse reactivity
+  let tx=0,ty=0,mouseX=0,mouseY=0;
+  document.addEventListener('mousemove',e=>{
+    mouseX=(e.clientX/window.innerWidth-.5)*1.4;
+    mouseY=(e.clientY/window.innerHeight-.5)*1.0;
+  });
+
+  // Scroll-based morph — vertices displacement
+  const posAttr=geo.attributes.position;
+  const origPos=posAttr.array.slice();
+  let scrollProgress=0;
+
+  window.addEventListener('scroll',()=>{
+    const heroH=document.getElementById('hero').offsetHeight;
+    scrollProgress=Math.min(window.scrollY/heroH,1);
+  },{passive:true});
+
+  let t=0;
+  (function animate(){
+    requestAnimationFrame(animate);
+    t+=.008;
+
+    // Breathe + mouse tilt
+    tx+=(mouseX-tx)*.05;
+    ty+=(mouseY-ty)*.05;
+    mesh.rotation.x=ty*.3+t*.12;
+    mesh.rotation.y=tx*.4+t*.18;
+    wireMesh.rotation.copy(mesh.rotation);
+
+    // Subtle vertex noise morph based on scroll
+    const amp=.04+scrollProgress*.06;
+    for(let i=0;i<posAttr.count;i++){
+      const ox=origPos[i*3],oy=origPos[i*3+1],oz=origPos[i*3+2];
+      const noise=Math.sin(ox*3+t)*Math.cos(oy*2.5+t*.7)*Math.sin(oz*2+t*.5);
+      posAttr.array[i*3]=ox+noise*amp;
+      posAttr.array[i*3+1]=oy+noise*amp;
+      posAttr.array[i*3+2]=oz+noise*amp;
+    }
+    posAttr.needsUpdate=true;
+    geo.computeVertexNormals();
+
+    ring.rotation.z=t*.22;
+    ring2.rotation.z=-t*.15;
+    ring2.rotation.x=Math.PI/3+t*.04;
+
+    // Scroll fade — orb fades as you scroll away from hero
+    const orbEl=document.getElementById('hero-orb');
+    if(orbEl) orbEl.style.opacity=Math.max(0,1-scrollProgress*2.5);
+
+    rim.position.x=-2+Math.sin(t*.4)*1.2;
+    rim.position.y=2+Math.cos(t*.3)*.8;
+
+    renderer.render(scene,camera);
+  })();
+
+  window.addEventListener('resize',()=>{
+    const nw=canvas.offsetWidth,nh=canvas.offsetHeight;
+    if(nw&&nh){renderer.setSize(nw,nh);camera.aspect=nw/nh;camera.updateProjectionMatrix();}
+  });
+})();
+</script>
+</body>
+</html>
